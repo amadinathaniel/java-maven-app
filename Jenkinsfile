@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven'
     }
     stages {
-        stage('build jar') {
+        stage("build jar") {
             steps {
                 script {
                     echo "building the application..."
@@ -12,21 +12,22 @@ pipeline {
                 }
             }
         }
-        stage('build image') {
+        stage("build image") {
             steps {
                 script {
                     echo "building the docker image..."
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernamevariable: 'USER' )])
-                    sh 'docker build -t amadinathaniel/demo-app:jma-2.0 .'
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push amadinathaniel/demo-app:jma-2.0'
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernamevariable: 'USER' )]) {
+                        sh 'docker build -t amadinathaniel/demo-app:jma-2.0 .'
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh 'docker push amadinathaniel/demo-app:jma-2.0'
+                    }
                 }
             }
         }
         stage('deploy') {
             steps {
                 script {
-                    echo "Deploying the application..."
+                     echo "Deploying the application..."
                 }
             }
         }
