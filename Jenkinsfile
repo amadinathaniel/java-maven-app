@@ -18,7 +18,6 @@ pipeline {
             steps {
                 script {
                     echo "Building the application..."
-                    echo "Some changes to trigger build"
                 }
             }
         } 
