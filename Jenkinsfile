@@ -1,20 +1,7 @@
-#!/usr/bin/env groovy
-
-library identifier: 'jenkins-shared-library@main', retriever: modernSCM(
-        [$class: 'GitSCMSource',
-         remote: 'https://github.com/amadinathaniel/jenkins-shared-library.git',
-         credentialsId: 'github-with-token'
-        ]
-)
-
-
 def gv
 
 pipeline {
     agent any
-    tools {
-        maven 'Maven'
-    }
     stages {
         stage("init") {
             steps {
@@ -26,25 +13,26 @@ pipeline {
         stage("build jar") {
             steps {
                 script {
-                    buildJar()
+                    echo "building jar"
+                    //gv.buildJar()
                 }
             }
         }
-        stage("build and push image") {
+        stage("build image") {
             steps {
                 script {
-                    buildImage 'amadinathaniel/demo-app:jma-3.0'
-                    dockerLogin()
-                    dockerPush 'amadinathaniel/demo-app:jma-3.0'
+                    echo "building image"
+                    //gv.buildImage()
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    gv.deployApp()
+                    echo "deploying"
+                    //gv.deployApp()
                 }
             }
         }
-    }
+    }   
 }
