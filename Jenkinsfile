@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     echo "Building the application..."
-                    echo "Testing some changes"
+                    echo "Testing some new changes again"
                 }
             }
         } 
