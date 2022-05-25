@@ -19,7 +19,7 @@ pipeline {
         stage("build app") {
             steps {
                 script {
-                    echo 'building application jar..'
+                    echo 'building application jar...'
                     buildJar()
                 }
             }
@@ -27,7 +27,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo 'building the docker image..'
+                    echo 'building the docker image...'
                     buildImage(env.IMAGE_NAME)
                     dockerLogin()
                     dockerPush(env.IMAGE_NAME)
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'deploying the docker image to EC2...'
-                    def dockerCmd = "docker run -d -p 8080:8080 ${IMAGE_NAME}"
+                    def dockerCmd = "docker run -p 8080:8080 -d ${IMAGE_NAME}"
                     sshagent(['ec2-server-key']) {
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@52.91.68.32 ${dockerCmd}"
                     }    
