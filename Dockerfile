@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-latest
+FROM openjdk:8-jre
 
 EXPOSE 8080
 
