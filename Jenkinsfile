@@ -27,7 +27,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo 'building the docker image....'
+                    echo 'building the docker image...'
                     buildImage(env.IMAGE_NAME)
                     dockerLogin()
                     dockerPush(env.IMAGE_NAME)
@@ -38,9 +38,10 @@ pipeline {
             steps {
                 script {
                     echo 'deploying the docker image to EC2...'
-                    def dockerCmd = "docker run -p 8080:8080 -d ${IMAGE_NAME}"
+                    def dockerComposeCmd = "docker-compose -f docker-compose.yml up --detach"
                     sshagent(['ec2-server-key']) {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@52.91.68.32 ${dockerCmd}"
+                        sh "scp docker-compose.yml ec2-user@52.91.68.32:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@52.91.68.32 ${dockerComposeCmd}"
                     }    
                 }
             }
